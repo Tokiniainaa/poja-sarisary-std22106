@@ -1,20 +1,15 @@
 package hei.school.sarisary.endpoint.rest.controller.health;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
 
 @RestController
 public class BlackAndWhiteController {
@@ -29,7 +24,6 @@ public class BlackAndWhiteController {
             String originalUrl = "https://original.url"; // URL originale à remplacer par une URL réelle
             String transformedUrl = "https://transformed.url"; // URL transformée à remplacer par une URL réelle
             imageUrls.put(id, transformedUrl); // Stockage de l'URL transformée avec l'ID spécifié
-
             return ResponseEntity.ok().build();
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,21 +44,19 @@ public class BlackAndWhiteController {
             return ResponseEntity.notFound().build();
         }
     }
+
     public byte[] convertToBlackAndWhite(byte[] imageBytes) throws IOException {
         // Read image from byte array
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
-
         // Convert image to black and white
         BufferedImage blackAndWhiteImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
         blackAndWhiteImage.getGraphics().drawImage(image, 0, 0, null);
-
         // Write black and white image to byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(blackAndWhiteImage, "png", baos);
         baos.flush();
         byte[] blackAndWhiteBytes = baos.toByteArray();
         baos.close();
-
         return blackAndWhiteBytes;
     }
 }
